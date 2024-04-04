@@ -5,6 +5,11 @@
 #include <limits.h>
 #include <malloc.h>
 
+
+void ASSERT(float a, float b){
+    if(a != b) printf("Test failed!\n");
+    else printf("Test successful!\n");
+}
 typedef struct
 {
     float x;
@@ -92,72 +97,103 @@ void OutputData (int n, int max_d, Point* obj){
 void TestDistanceBetweenTwoPoints_ZeroZeroAndZeroTwo_ResultTwo(){
     //arrange
     Point p1={0,0}, p2={2,0};
+    const float result = 2.0;
     //act
     float d = distanceBetweenTwoPoints(p1,p2);
     //assert
-    printf("TestDistanceBetweenTwoPoints_ZeroZeroAndZeroTwo_ResultTwo(): %lf\n",d);
+    printf("TestDistanceBetweenTwoPoints_ZeroZeroAndZeroTwo_ResultTwo():");
+    ASSERT(result,d);
 }
 
 void TestDistanceBetweenTwoPoints_TwoPoints_ResultFive(){
     //arrange
     Point p1={2,-2}, p2={5,2};
+    const float result = 5.0;
     //act
     float d = distanceBetweenTwoPoints(p1,p2);
     //assert
-    printf("TestDistanceBetweenTwoPoints_TwoPoints_ResultFive() %lf\n",d);
+    printf("TestDistanceBetweenTwoPoints_TwoPoints_ResultFive():");
+    ASSERT(result,d);
 }
 
 void TestIsAValidDiagonal_FixedInput_ReturnOne(){
     //arrange
     int n = 6, j = 0, i = n-1;
+    const float result = 1.0;
     //act
     float r = isAValidDiagonal(i,j,n);
     //assert
-    printf("TestIsAValidDiagonal_FixedInput_ReturnOne(): %lf\n",r);
+    printf("TestIsAValidDiagonal_FixedInput_ReturnOne()");
+    ASSERT(result,r);
 }
 
 void TestIsAValidDiagonal_FixedInput_ReturnZero(){
     //arrange
     int n = 25, j = 20, i = 5;
+    const float result = 0.0;
     //act
     float r = isAValidDiagonal(i,j,n);
     //assert
-    printf("TestIsAValidDiagonal_FixedInput_ReturnZero(): %lf\n",r);
+    printf("TestIsAValidDiagonal_FixedInput_ReturnZero()");
+    ASSERT(result,r);
 }
 
 void TestCalculateResult_FixedInput_ReturnZero(){
     //arrange
     int m_d;
     const int n = 5;
+    const float result = 0.0;
     Point obj[5] = {{0, 0}, {1, 2}, {3, 1}, {2, -1}, {0.5, -2}};
     //act
     float r = calculateResult(obj,n);
     //assert
-    printf("TestCalculateResult_FixedInput_ReturnZero(): %lf\n",r);
+    printf("TestCalculateResult_FixedInput_ReturnZero()");
+    ASSERT(result,r);
 }
 
 void TestCalculateResult_FixedInput_ReturnOne(){
     //arrange
     int m_d;
     const int n = 6;
+    const float result = 1.0;
     Point obj[6] = {{0, 0}, {0, 2}, {1, 4}, {2, 4}, {4, 3}, {4, 1}};
     //act
     float r = calculateResult(obj,n);
     //assert
-    printf("TestCalculateResult_FixedInput_ReturnOne(): %lf\n",r);
+    printf("TestCalculateResult_FixedInput_ReturnOne():");
+    ASSERT(result,r);
+}
+
+void TestCalculateResult_FixedInput_Return1(){
+    //arrange
+    int m_d;
+    const int n = 6;
+    const float result = 1.0;
+    Point obj[6] = {{1, 1}, {1, 3}, {2, 5}, {3, 5}, {5, 4}, {5, 2}};
+    //act
+    int r = calculateResult(obj,n);
+    //assert
+    printf("TestCalculateResult_FixedInput_Return1():");
+    ASSERT(result, r);
 }
 
 int main()
 {
     int n;
     Point* obj = InputData(&n);
+    if(n<4){
+        printf("Входные данные не соотвествуют требованиям. Работа завершена досрочно!\n");
+    }
+    else{
     int max_d = calculateResult(obj, n);
     OutputData(n, max_d, obj);
+    }
     TestDistanceBetweenTwoPoints_ZeroZeroAndZeroTwo_ResultTwo();
     TestDistanceBetweenTwoPoints_TwoPoints_ResultFive();
     TestIsAValidDiagonal_FixedInput_ReturnOne();
     TestIsAValidDiagonal_FixedInput_ReturnZero();
     TestCalculateResult_FixedInput_ReturnZero();
     TestCalculateResult_FixedInput_ReturnOne();
+    TestCalculateResult_FixedInput_Return1();
     return(0);
 }
